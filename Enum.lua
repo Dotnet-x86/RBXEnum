@@ -27,11 +27,7 @@ local function isEnumItem (enumItem: EnumItem)
 	end
 	
 	if typeof(enumItem) == 'number' then
-		local value
-		local completed = pcall(function()
-			value = GetEnumFromValue(enumItem)
-		end)
-		return completed == true and value ~= nil
+		return GetEnumFromValue(enumItem) ~= nil
 	end
 	
 	return false
@@ -197,11 +193,19 @@ function GetEnumFromValue (value: number) : Enum
 	return Enum
 end
 
+function GetEnumItemNameFromValue (value: number) : string
+	local Enum = GetEnumFromValue(value)
+	if Enum then
+		return Enum:GetNameFromValue(value)
+	end
+end
+
 return {
 	new = newEnum,
 	isEnum = isEnum,
 	isEnumItem = isEnumItem,
 	RBXEnum = RBXEnum,
 	getEnumFromValue = GetEnumFromValue,
-	getRegisteredEnums = GetRegisteredEnums
+	getRegisteredEnums = GetRegisteredEnums,
+	getEnumItemNameFromValue = GetEnumItemNameFromValue
 }
